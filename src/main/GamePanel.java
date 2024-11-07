@@ -1,5 +1,7 @@
 package main;
 
+import ground.MapCreator;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,14 +11,14 @@ public class GamePanel extends JPanel implements Runnable{
     final int scale= 3;
 
     public final int tileSize= originalTilesize*scale;
-    final int maxScreenCol= 16;
-    final int maxScreenRow= 12;
-    final int screenWidth= tileSize * maxScreenCol;
-    final int screenHight= tileSize* maxScreenRow;
+    public final int maxScreenCol= 16;
+    public int maxScreenRow= 12;
+    public final int screenWidth= tileSize * maxScreenCol;
+    public final int screenHight= tileSize* maxScreenRow;
     //FPS
     int FPS= 60;
 
-
+    ground.MapCreator mapC= new MapCreator(this);
     KeyHandler keyH= new KeyHandler();
     Thread gameThread;
     characters.Figure figure=new characters.Figure(this,keyH);
@@ -68,8 +70,8 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         Graphics2D g2=(Graphics2D) g;
+        mapC.draw(g2);
         figure.draw(g2);
         g2.dispose();
     }
