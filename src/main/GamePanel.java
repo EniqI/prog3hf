@@ -1,3 +1,5 @@
+package main;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,12 +19,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     KeyHandler keyH= new KeyHandler();
     Thread gameThread;
-    Figure figure=new Figure(this,keyH);
-
-    //players default position
-    int playerX= 100;
-    int playerY= 100;
-    int playerSpeed= 4;
+    characters.Figure figure=new characters.Figure(this,keyH);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHight));
