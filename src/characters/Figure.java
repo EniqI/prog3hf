@@ -23,6 +23,12 @@ public class Figure extends Character{
         this.gp=gp;
         this.keyH=keyH;
 
+        solidArea= new Rectangle();
+        solidArea.x= 8;
+        solidArea.y= 16;
+        solidArea.width= 32;
+        solidArea.height= 32;
+
         setDefaultValues();
         getFigureImage();
     }
@@ -54,17 +60,25 @@ public class Figure extends Character{
                 || keyH.rightPeressed){
             if(keyH.upPressed){
                 direction="up";
-                y -= speed;
             }else if(keyH.downPressed){
                 direction="down";
-                y += speed;
             }else if(keyH.leftPressed){
                 direction="left";
-                x -= speed;
             }else if(keyH.rightPeressed){
                 direction="right";
-                x += speed;
             }
+            collisionOn= false;
+            gp.cChecker.checkTile(this);
+
+            if(!collisionOn){
+                switch (direction){
+                    case "up": y-=speed; break;
+                    case "down": y+=speed; break;
+                    case "left": x-=speed; break;
+                    case "right": x+=speed; break;
+                }
+            }
+
             spriteCounter++;
             if(spriteCounter>12){
                 if(spriteNum==1){

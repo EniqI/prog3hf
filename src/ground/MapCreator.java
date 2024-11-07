@@ -10,8 +10,8 @@ import java.io.InputStreamReader;
 
 public class MapCreator {
     GamePanel gp;
-    Ground[] tile;
-    int[][] mapTileNum;
+    public Ground[] tile;
+    public int[][] mapTileNum;
 
     public MapCreator(GamePanel gp){
         this.gp= gp;

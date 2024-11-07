@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     ground.MapCreator mapC= new MapCreator(this);
     KeyHandler keyH= new KeyHandler();
     Thread gameThread;
+    public CollisionChecker cChecker= new CollisionChecker(this);
     characters.Figure figure=new characters.Figure(this,keyH);
 
     public GamePanel(){
@@ -37,34 +38,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     @Override
-    /*public void run() {
-        double drawInterval= 1000000000/FPS; //
-        double nextDrawTime= System.nanoTime()+ drawInterval;
-
-        while (gameThread!= null){
-
-            //UPDATE
-            update();
-            //DRAW
-            repaint();
-
-
-            try {
-                double remainingTime= nextDrawTime- System.nanoTime();
-                remainingTime= remainingTime/1000000;
-
-                if(remainingTime<0){
-                    remainingTime=0;
-                }
-
-                Thread.sleep((long) remainingTime);
-
-                nextDrawTime+= drawInterval;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
     public void run(){
         double drawInterval= 1000000000/FPS;
         double delta=0;
