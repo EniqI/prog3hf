@@ -4,15 +4,21 @@ import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class MapCreator {
     GamePanel gp;
     Ground[] tile;
+    int[][] mapTileNum;
 
     public MapCreator(GamePanel gp){
         this.gp= gp;
         tile= new Ground[10];
+        mapTileNum= new  int[gp.maxScreenCol][gp.maxScreenRow];
         getGroundImage();
+        loadMap("./maps/map1.txt");
     }
     public void getGroundImage(){
         try {
@@ -24,12 +30,43 @@ public class MapCreator {
 
             tile[2]= new Ground();
             tile[2].image= ImageIO.read(getClass().getResourceAsStream("./tileimages/magma.png"));
+            tile[2].collision=true;
 
             tile[3]= new Ground();
             tile[3].image= ImageIO.read(getClass().getResourceAsStream("./tileimages/lava.png"));
+            tile[3].collision=true;
 
             tile[4]= new Ground();
             tile[4].image= ImageIO.read(getClass().getResourceAsStream("./tileimages/fire.jpg"));
+            tile[4].collision=true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void loadMap(String filePath){
+        try {
+            InputStream is= getClass().getResourceAsStream(filePath); //ez jol mukodik
+            BufferedReader br= new BufferedReader(new InputStreamReader(is));
+            int col=0;
+            int row=0;
+            while(col< gp.maxScreenCol && row< gp.maxScreenRow){
+                String line = br.readLine(); //ez is jo, vannak benne szamok
+
+                while (col< gp.maxScreenCol){
+
+                    String[] numbers = line.split("\t");
+                    System.out.println(numbers[0]);
+                    int num= Integer.parseInt(numbers[col].strip());
+                    mapTileNum[col][row]= num;
+                    col++;
+                }
+                if(col== gp.maxScreenCol){
+                    col=0;
+                    row++;
+                }
+            }
+            br.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,8 +78,16 @@ public class MapCreator {
         int x= 0;
         int y= 0;
         while(col< gp.maxScreenCol && row< gp.maxScreenRow){
-            g2.drawImage(tile[0].image,x,y,gp.tileSize, gp.tileSize, null);
-
+            int tileNum= mapTileNum[col][row];
+            g2.drawImage(tile[tileNum].image,x,y,gp.tileSize, gp.tileSize, null);
+            col++;
+            x+= gp.tileSize;
+            if(col== gp.maxScreenCol){
+                col=0;
+                x=0;
+                row++;
+                y+= gp.tileSize;
+            }
         }
     }
 }

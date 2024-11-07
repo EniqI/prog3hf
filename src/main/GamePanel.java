@@ -10,10 +10,10 @@ public class GamePanel extends JPanel implements Runnable{
     final int originalTilesize= 16;
     final int scale= 3;
 
-    public final int tileSize= originalTilesize*scale;
+    public final int tileSize= originalTilesize* scale;
     public final int maxScreenCol= 16;
     public int maxScreenRow= 12;
-    public final int screenWidth= tileSize * maxScreenCol;
+    public final int screenWidth= tileSize* maxScreenCol;
     public final int screenHight= tileSize* maxScreenRow;
     //FPS
     int FPS= 60;
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     @Override
-    public void run() {
+    /*public void run() {
         double drawInterval= 1000000000/FPS; //
         double nextDrawTime= System.nanoTime()+ drawInterval;
 
@@ -64,6 +64,24 @@ public class GamePanel extends JPanel implements Runnable{
                 e.printStackTrace();
             }
         }
+    }*/
+    public void run(){
+        double drawInterval= 1000000000/FPS;
+        double delta=0;
+        long lastTime= System.nanoTime();
+        long currentTime;
+        while (gameThread != null){
+            currentTime= System.nanoTime();
+            delta+=(currentTime- lastTime)/drawInterval;
+            lastTime= currentTime;
+
+            if(delta>=1){
+                update();
+                repaint();
+                delta--;
+            }
+        }
+
     }
     public void update(){
         figure.update();
