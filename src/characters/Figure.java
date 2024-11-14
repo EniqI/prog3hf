@@ -14,6 +14,7 @@ import java.io.IOException;
 public class Figure extends Character{
     GamePanel gp;
     KeyHandler keyH;
+    int bonusPoints=0;
 
     /**
      * @param gp
@@ -26,6 +27,8 @@ public class Figure extends Character{
         solidArea= new Rectangle();
         solidArea.x= 8;
         solidArea.y= 16;
+        solidAreaDefaultX= solidArea.x;
+        solidAreaDefaultY= solidArea.y;
         solidArea.width= 32;
         solidArea.height= 32;
 
@@ -69,7 +72,8 @@ public class Figure extends Character{
             }
             collisionOn= false;
             gp.cChecker.checkTile(this);
-
+            int objIndex= gp.cChecker.checkBonus(this,true);
+            pickUpObject(objIndex);
             if(!collisionOn){
                 switch (direction){
                     case "up": y-=speed; break;
@@ -91,6 +95,15 @@ public class Figure extends Character{
             }
         }
     }
+
+    public void pickUpObject(int index){
+
+        if(index!=999){
+            System.out.println(gp.obj[index].name);
+            gp.obj[index]= null;
+        }
+    }
+
     public void draw(Graphics2D g2){
         //g2.setColor(Color.blue);
         //g2.fillRect(x, y, gp.tileSize, gp.tileSize);
