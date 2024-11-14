@@ -4,23 +4,24 @@ import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Scanner;
 
 public class MapCreator {
     GamePanel gp;
     public Ground[] tile;
     public int[][] mapTileNum;
+    public Ground[][] map;
 
     public MapCreator(GamePanel gp){
         this.gp= gp;
         tile= new Ground[10];
         mapTileNum= new  int[gp.maxScreenCol][gp.maxScreenRow];
-        getGroundImage();
-        loadMap("./maps/map1.txt");
+        map= new Ground[gp.maxScreenCol][gp.maxScreenRow];
+        //getGroundImage();
+        loadMap("src/ground/maps/map1.txt");
     }
-    public void getGroundImage(){
+   /* public void getGroundImage(){
         try {
             tile[0]= new Ground();
             tile[0].image= ImageIO.read(getClass().getResourceAsStream("./tileimages/road.png"));
@@ -56,7 +57,6 @@ public class MapCreator {
                 while (col< gp.maxScreenCol){
 
                     String[] numbers = line.split("\t");
-                    System.out.println(numbers[0]);
                     int num= Integer.parseInt(numbers[col].strip());
                     mapTileNum[col][row]= num;
                     col++;
@@ -71,22 +71,28 @@ public class MapCreator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }*/
+
+    public void loadMap(String filePath) {
+
+        Scanner scanner= null;
+        try {
+            scanner = new Scanner(new File(filePath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        for(int i=0; i<gp.maxScreenRow; i++){
+            for (int j = 0; j < gp.maxScreenCol; j++) {
+                map[j][i] = new Ground(j*GamePanel.tileSize,i*GamePanel.tileSize);
+                map[j][i].setImage(scanner.nextInt());
+            }
+        }
     }
+
     public void draw(Graphics2D g2){
-        int col= 0;
-        int row= 0;
-        int x= 0;
-        int y= 0;
-        while(col< gp.maxScreenCol && row< gp.maxScreenRow){
-            int tileNum= mapTileNum[col][row];
-            g2.drawImage(tile[tileNum].image,x,y,gp.tileSize, gp.tileSize, null);
-            col++;
-            x+= gp.tileSize;
-            if(col== gp.maxScreenCol){
-                col=0;
-                x=0;
-                row++;
-                y+= gp.tileSize;
+        for(Ground[] col: map){
+            for(Ground tile: col){
+                tile.draw(g2);
             }
         }
     }
