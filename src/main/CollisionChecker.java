@@ -1,6 +1,8 @@
 package main;
 
+import bonuses.Bonus;
 import characters.Character;
+import characters.Figure;
 
 public class CollisionChecker {
    GamePanel gp;
@@ -54,6 +56,73 @@ public class CollisionChecker {
                 }
                 break;
         }
+    }
+    public int checkBonus(Character character, boolean player){
+        int returnValue= 999;
+        int placeInArray=0;
+        for(Bonus element: gp.obj){
+            if(element!=null){
+                //get entities solid area position
+                character.solidArea.x= character.x+ character.solidArea.x;
+                character.solidArea.y= character.y+ character.solidArea.y;
+                //get the object's solid area
+                element.solidArea.x= element.x+ element.solidArea.x;
+                element.solidArea.y= element.y+ element.solidArea.y;
+
+                switch (character.direction){
+                    case "up":
+                        character.solidArea.y -= character.speed;
+                        if(character.solidArea.intersects(element.solidArea)){
+                            if(element.collision){
+                                character.collisionOn=true;
+                            }
+                            if(player){
+                                returnValue=placeInArray;
+                            }
+                        }
+                        break;
+                    case "down":
+                        character.solidArea.y += character.speed;
+                        if(character.solidArea.intersects(element.solidArea)){
+                            if(element.collision){
+                                character.collisionOn=true;
+                            }
+                            if(player){
+                                returnValue=placeInArray;
+                            }
+                        }
+                        break;
+                    case "left":
+                        character.solidArea.x -= character.speed;
+                        if(character.solidArea.intersects(element.solidArea)){
+                            if(element.collision){
+                                character.collisionOn=true;
+                            }
+                            if(player){
+                                returnValue=placeInArray;
+                            }
+                        }
+                        break;
+                    case "right":
+                        character.solidArea.x += character.speed;
+                        if(character.solidArea.intersects(element.solidArea)){
+                            if(element.collision){
+                                character.collisionOn=true;
+                            }
+                            if(player){
+                                returnValue=placeInArray;
+                            }
+                        }
+                        break;
+                }
+                character.solidArea.x=character.solidAreaDefaultX;
+                character.solidArea.y=character.solidAreaDefaultY;
+                element.solidArea.x= element.solidAreaDefaultX;
+                element.solidArea.y= element.solidAreaDefaultY;
+            }
+            placeInArray++;
+        }
+        return returnValue;
     }
 
 }
