@@ -1,6 +1,7 @@
 package main;
 
 import bonuses.Bonus;
+import bonuses.Goal;
 import characters.Figure;
 import ground.MapCreator;
 
@@ -24,9 +25,9 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
     public CollisionChecker cChecker= new CollisionChecker(this);
     public AssetSetter aSetter= new AssetSetter(this);
-    public Figure figure=new characters.Figure(this,keyH);
+    public Figure figure=new Figure(this,keyH);
     public Bonus obj[]= new Bonus[10];
-
+    public Goal goal= new Goal();
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHight));
@@ -67,12 +68,22 @@ public class GamePanel extends JPanel implements Runnable{
     public void update(){
         figure.update();
     }
+    int counter=0;
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2=(Graphics2D) g;
         //GROUND
-        mapC.draw(g2);
-
+        if(counter<2) {
+            mapC.draw(g2);
+            counter+=1;
+        }
+        //GOAL tile
+        for(Bonus element: obj){
+            if(element!=null){
+                break;
+            }
+            goal.draw(g2,this);
+        }
         //BONUS
         for(Bonus element: obj){
             if(element!=null){

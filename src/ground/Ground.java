@@ -12,7 +12,7 @@ public class Ground extends Rectangle {
 
     public BufferedImage image;
     public boolean collision= false;
-    public Ground(int x,int y){
+    /*public Ground(int x,int y){
         this.x= x;
         this.y= y;
         this.width= GamePanel.tileSize;
@@ -54,5 +54,5 @@ public class Ground extends Rectangle {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }

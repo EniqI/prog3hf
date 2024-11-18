@@ -15,5 +15,10 @@ public void setObject(){
     gp.obj[1]=new Diamond();
     gp.obj[1].x=11* gp.tileSize;
     gp.obj[1].y=5* gp.tileSize;
+
+    gp.goal.x= 15* gp.tileSize;
+    gp.goal.y= 3* gp.tileSize;
+
 }
+
 }

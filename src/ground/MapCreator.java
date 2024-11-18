@@ -18,10 +18,11 @@ public class MapCreator {
         tile= new Ground[10];
         mapTileNum= new  int[gp.maxScreenCol][gp.maxScreenRow];
         map= new Ground[gp.maxScreenCol][gp.maxScreenRow];
-        //getGroundImage();
-        loadMap("src/ground/maps/map1.txt");
+        getGroundImage();
+        //loadMap("src/ground/maps/map1.txt");
+        loadMap("./maps/map1.txt");
     }
-   /* public void getGroundImage(){
+    public void getGroundImage(){
         try {
             tile[0]= new Ground();
             tile[0].image= ImageIO.read(getClass().getResourceAsStream("./tileimages/road.png"));
@@ -71,8 +72,27 @@ public class MapCreator {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
+    public void draw(Graphics2D g2){
+        int col= 0;
+        int row= 0;
+        int x= 0;
+        int y= 0;
+        while(col< gp.maxScreenCol && row< gp.maxScreenRow){
+            int tileNum= mapTileNum[col][row];
+            g2.drawImage(tile[tileNum].image,x,y,gp.tileSize, gp.tileSize, null);
+            col++;
+            x+= gp.tileSize;
+            if(col== gp.maxScreenCol){
+                col=0;
+                x=0;
+                row++;
+                y+= gp.tileSize;
+            }
+        }
+    }
+/*
     public void loadMap(String filePath) {
 
         Scanner scanner= null;
@@ -95,5 +115,5 @@ public class MapCreator {
                 tile.draw(g2);
             }
         }
-    }
+    }*/
 }
