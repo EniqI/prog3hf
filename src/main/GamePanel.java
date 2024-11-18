@@ -68,22 +68,27 @@ public class GamePanel extends JPanel implements Runnable{
     public void update(){
         figure.update();
     }
-    int counter=0;
+
+    int cnt=0;
+    boolean finished=false;
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2=(Graphics2D) g;
         //GROUND
-        if(counter<2) {
+        if(finished){
             mapC.draw(g2);
-            counter+=1;
         }
         //GOAL tile
+        cnt=0;
         for(Bonus element: obj){
             if(element!=null){
-                break;
+                cnt+=1;
             }
+        }
+        if(cnt==0){
             goal.draw(g2,this);
         }
+
         //BONUS
         for(Bonus element: obj){
             if(element!=null){

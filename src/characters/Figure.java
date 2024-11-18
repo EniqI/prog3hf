@@ -74,6 +74,7 @@ public class Figure extends Character{
             gp.cChecker.checkTile(this);
             int objIndex= gp.cChecker.checkBonus(this,true);
             pickUpObject(objIndex);
+            gp.cChecker.checkGoal(this,true);
             if(!collisionOn){
                 switch (direction){
                     case "up": y-=speed; break;
@@ -97,7 +98,6 @@ public class Figure extends Character{
     }
 
     public void pickUpObject(int index){
-
         if(index!=999){
             System.out.println(gp.obj[index].name);
             gp.obj[index]= null;

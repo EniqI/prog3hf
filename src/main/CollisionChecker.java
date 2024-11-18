@@ -124,5 +124,65 @@ public class CollisionChecker {
         }
         return returnValue;
     }
+    public void checkGoal(Character character, boolean player) {
+
+        //get entities solid area position
+        character.solidArea.x = character.x + character.solidArea.x;
+        character.solidArea.y = character.y + character.solidArea.y;
+        //get the object's solid area
+        gp.goal.solidArea.x = gp.goal.x + gp.goal.solidArea.x;
+        gp.goal.solidArea.y = gp.goal.y + gp.goal.solidArea.y;
+
+        switch (character.direction) {
+            case "up":
+                character.solidArea.y -= character.speed;
+                if (character.solidArea.intersects(gp.goal.solidArea)) {
+                    if (gp.goal.collision) {
+                        character.collisionOn = true;
+                    }
+                    if (player) {
+                        gp.finished = true;
+                    }
+                }
+                break;
+            case "down":
+                character.solidArea.y += character.speed;
+                if (character.solidArea.intersects(gp.goal.solidArea)) {
+                    if (gp.goal.collision) {
+                        character.collisionOn = true;
+                    }
+                    if (player) {
+                        gp.finished = true;
+                    }
+                }
+                break;
+            case "left":
+                character.solidArea.x -= character.speed;
+                if (character.solidArea.intersects(gp.goal.solidArea)) {
+                    if (gp.goal.collision) {
+                        character.collisionOn = true;
+                    }
+                    if (player) {
+                        gp.finished = true;
+                    }
+                }
+                break;
+            case "right":
+                character.solidArea.x += character.speed;
+                if (character.solidArea.intersects(gp.goal.solidArea)) {
+                    if (gp.goal.collision) {
+                        character.collisionOn = true;
+                    }
+                    if (player) {
+                        gp.finished = true;
+                    }
+                }
+                break;
+        }
+        character.solidArea.x = character.solidAreaDefaultX;
+        character.solidArea.y = character.solidAreaDefaultY;
+        gp.goal.solidArea.x = gp.goal.solidAreaDefaultX;
+        gp.goal.solidArea.y = gp.goal.solidAreaDefaultY;
+    }
 
 }
