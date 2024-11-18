@@ -14,4 +14,5 @@ public class Character {
     public Rectangle solidArea;
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn= false;
+    public int bonusPoints=0;
 }

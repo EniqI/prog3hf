@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Figure extends Character{
     GamePanel gp;
     KeyHandler keyH;
-    int bonusPoints=0;
+
 
     /**
      * @param gp
@@ -101,6 +101,7 @@ public class Figure extends Character{
         if(index!=999){
             System.out.println(gp.obj[index].name);
             gp.obj[index]= null;
+            bonusPoints+=1;
         }
     }
 

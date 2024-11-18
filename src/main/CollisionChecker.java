@@ -132,7 +132,6 @@ public class CollisionChecker {
         //get the object's solid area
         gp.goal.solidArea.x = gp.goal.x + gp.goal.solidArea.x;
         gp.goal.solidArea.y = gp.goal.y + gp.goal.solidArea.y;
-
         switch (character.direction) {
             case "up":
                 character.solidArea.y -= character.speed;
@@ -140,7 +139,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player && character.bonusPoints>=2) {
                         gp.finished = true;
                     }
                 }
@@ -151,7 +150,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player && character.bonusPoints>=2) {
                         gp.finished = true;
                     }
                 }
@@ -162,7 +161,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player && character.bonusPoints>=2) {
                         gp.finished = true;
                     }
                 }
@@ -173,7 +172,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player && character.bonusPoints>=2) {
                         gp.finished = true;
                     }
                 }
@@ -184,5 +183,4 @@ public class CollisionChecker {
         gp.goal.solidArea.x = gp.goal.solidAreaDefaultX;
         gp.goal.solidArea.y = gp.goal.solidAreaDefaultY;
     }
-
 }

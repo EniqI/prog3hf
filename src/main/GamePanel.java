@@ -86,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         if(cnt==0){
+            goal.collision=true;
             goal.draw(g2,this);
         }
 
