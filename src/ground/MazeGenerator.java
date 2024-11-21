@@ -7,93 +7,88 @@ import java.util.Collections;
 import java.util.List;
 
 public class MazeGenerator {
-    // Directions for moving in the grid
-    private static final int[][] DIRECTIONS = {
-            {0, -1}, // Up
-            {1, 0},  // Right
-            {0, 1},  // Down
-            {-1, 0}  // Left
-    };
 
-    private int rows, cols;
-    private Cell[][] maze;
-    private GamePanel gp;
-    // Inner class to represent a cell in the maze
-    private static class Cell {
-        boolean visited = false;
-        boolean[] walls = {true, true, true, true}; // Top, Right, Bottom, Left
-    }
+        private int rows, cols;
+        private Tile[][] maze;
 
-    public MazeGenerator(GamePanel gp) {
-        this.gp=gp;
-        this.rows = gp.maxScreenRow;
-        this.cols = gp.maxScreenCol;
-        this.maze = new Cell[rows][cols];
+        // Tile class representing each cell in the maze
+        private static class Tile {
+            boolean isWall = true;
 
-        // Initialize the maze grid
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                maze[row][col] = new Cell();
+            public Tile(boolean isWall) {
+                this.isWall = isWall;
+            }
+
+            @Override
+            public String toString() {
+                return isWall ? "#" : " ";
             }
         }
-    }
 
-    // Generate the maze using recursive backtracking
-    public void generateMaze(int startRow, int startCol) {
-        generate(startRow, startCol);
-    }
+        public MazeGenerator(GamePanel gp) {
+            this.rows = gp.maxScreenRow;
+            this.cols = gp.maxScreenCol;
+            this.maze = new Tile[rows][cols];
 
-    private void generate(int row, int col) {
-        maze[row][col].visited = true;
-
-        // Randomly shuffle directions
-        List<int[]> directions = new ArrayList<>();
-        Collections.addAll(directions, DIRECTIONS);
-        Collections.shuffle(directions);
-
-        for (int[] direction : directions) {
-            int newRow = row + direction[1];
-            int newCol = col + direction[0];
-
-            // Check bounds and if the neighbor has not been visited
-            if (isInBounds(newRow, newCol) && !maze[newRow][newCol].visited) {
-                // Remove the wall between current cell and neighbor
-                removeWall(row, col, direction);
-                removeWall(newRow, newCol, new int[]{-direction[0], -direction[1]});
-
-                // Recursively visit the neighbor
-                generate(newRow, newCol);
+            // Initialize the grid with walls
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < cols; col++) {
+                    maze[row][col] = new Tile(true);
+                }
             }
         }
-    }
 
-    private void removeWall(int row, int col, int[] direction) {
-        if (direction[1] == -1) {
-            maze[row][col].walls[0] = false; // Remove top wall
-        } else if (direction[0] == 1) {
-            maze[row][col].walls[1] = false; // Remove right wall
-        } else if (direction[1] == 1) {
-            maze[row][col].walls[2] = false; // Remove bottom wall
-        } else if (direction[0] == -1) {
-            maze[row][col].walls[3] = false; // Remove left wall
+        // Generate the maze using recursive backtracking
+        public void generateMaze(int startRow, int startCol) {
+            carvePath(startRow, startCol);
         }
-    }
 
-    private boolean isInBounds(int row, int col) {
-        return row >= 0 && row < rows && col >= 0 && col < cols;
-    }
+        private void carvePath(int row, int col) {
+            maze[row][col].isWall = false; // Mark the current tile as a path
+
+            // Directions for movement (up, right, down, left)
+            int[][] directions = {
+                    {0, -2}, // Up
+                    {2, 0},  // Right
+                    {0, 2},  // Down
+                    {-2, 0}  // Left
+            };
+
+            // Shuffle directions to create randomness
+            List<int[]> shuffledDirections = new ArrayList<>();
+            Collections.addAll(shuffledDirections, directions);
+            Collections.shuffle(shuffledDirections);
+
+            for (int[] dir : shuffledDirections) {
+                int newRow = row + dir[1];
+                int newCol = col + dir[0];
+
+                // Check if the next cell is within bounds and is a wall
+                if (isInBounds(newRow, newCol) && maze[newRow][newCol].isWall) {
+                    // Carve the wall between the current cell and the neighbor
+                    maze[row + dir[1] / 2][col + dir[0] / 2].isWall = false;
+
+                    // Recursively carve the path from the neighbor cell
+                    carvePath(newRow, newCol);
+                }
+            }
+        }
+
+        private boolean isInBounds(int row, int col) {
+            return row > 0 && row < rows - 1 && col > 0 && col < cols - 1;
+        }
 
     public void transformMaze( int[][] map){
         int col= 0;
         int row= 0;
         while(col< cols && row< rows) {
-            if (this.maze[col][row].walls[0]) {
+            if (maze[col][row].isWall) {
                 map[col][row] = 2;
             } else {
                 map[col][row] = 0;
             }
             col++;
-            if (col == gp.maxScreenCol) {
+            if (col == cols) {
                 col = 0;
                 row++;
             }

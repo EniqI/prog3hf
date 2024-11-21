@@ -12,13 +12,14 @@ public class MapCreator {
     public Ground[] tile;
     public int[][] mapTileNum;
     public Ground[][] map;
+    public MazeGenerator mazeGenerator;
 
     public MapCreator(GamePanel gp){
         this.gp= gp;
         tile= new Ground[10];
         mapTileNum= new  int[gp.maxScreenCol][gp.maxScreenRow];
         map= new Ground[gp.maxScreenCol][gp.maxScreenRow];
-        MazeGenerator mazeGenerator=new MazeGenerator(gp);
+        mazeGenerator=new MazeGenerator(gp);
         getGroundImage();
         //loadMap("src/ground/maps/map1.txt");
         if(gp.oldGame) {
