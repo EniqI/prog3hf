@@ -18,9 +18,7 @@ public class MainMenu extends JFrame implements ActionListener {
     JPanel namePanel= new JPanel();
     JPanel sizePanel= new JPanel();
     String playerName;
-    int gamePanelSizeX;
-    int gamePanelSizeY;
-    boolean oldGame;
+
     GamePanel gp= new GamePanel();
 
     public MainMenu(){
@@ -29,15 +27,10 @@ public class MainMenu extends JFrame implements ActionListener {
         this.setTitle("Labirinth Extreme");
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        this.setSize(new Dimension(400, 600));
-
-
-        restart.addActionListener(this);
+        this.setSize(new Dimension(400, 200));
 
         newGame.addActionListener(this);
         restart.addActionListener(this);
-        newGame= new JButton("NEW GAME");
-        newGame.addActionListener(this);
 
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(restart, BorderLayout.NORTH);
@@ -71,11 +64,12 @@ public class MainMenu extends JFrame implements ActionListener {
         window.setVisible(true);
 
         if(e.getSource()==restart){
-            oldGame=true;
+            gp.oldGame= true;
+            gp.playerName= name.getText();
             //load file from map and game
         }else if(e.getSource()==newGame){
-            oldGame=false;
-            playerName= name.getText();
+            gp.oldGame= false;
+            gp.playerName= this.name.getText();
             switch (gameSize.getItemCount()){
                 case 0:
                     gp.maxScreenCol= 12;

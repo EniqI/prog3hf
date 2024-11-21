@@ -8,12 +8,12 @@ public class UI {
 
     public  UI(GamePanel gp){
         this.gp=gp;
-        TimesNewRoman_80= new Font("Times New Roman", Font.BOLD,160);
+        TimesNewRoman_80= new Font("Times New Roman", Font.BOLD,80);
     }
     public void draw(Graphics2D g2){
         g2.setFont(TimesNewRoman_80);
         g2.setColor(Color.white);
-        g2.drawString("You won!", 1* gp.tileSize, 6* gp.tileSize);
+        g2.drawString("CONGRATS "+gp.playerName+" \n you won!", 1* gp.tileSize, 6* gp.tileSize);
 
     }
 }

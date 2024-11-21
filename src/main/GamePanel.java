@@ -9,7 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
-
+    public String playerName;
+    public boolean oldGame;
     public static final int originalTilesize= 16;
     final static int scale= 3;
 
@@ -77,7 +78,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2=(Graphics2D) g;
         //GROUND
         if(finished){
-            mapC.draw(g2);
+            //mapC.draw(g2);
             ui.draw(g2);
         }
         //GOAL tile

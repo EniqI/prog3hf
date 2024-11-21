@@ -18,9 +18,15 @@ public class MapCreator {
         tile= new Ground[10];
         mapTileNum= new  int[gp.maxScreenCol][gp.maxScreenRow];
         map= new Ground[gp.maxScreenCol][gp.maxScreenRow];
+        MazeGenerator mazeGenerator=new MazeGenerator(gp);
         getGroundImage();
         //loadMap("src/ground/maps/map1.txt");
-        loadMap("./maps/map1.txt");
+        if(gp.oldGame) {
+            loadMap("./maps/map1.txt");
+        }else {
+            mazeGenerator.generateMaze(gp.maxScreenCol,gp.maxScreenRow);
+            mazeGenerator.transformMaze(mapTileNum);
+        }
     }
     public void getGroundImage(){
         try {
@@ -73,6 +79,7 @@ public class MapCreator {
             e.printStackTrace();
         }
     }
+
 
     public void draw(Graphics2D g2){
         int col= 0;
