@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements Runnable{
     final static int scale= 3;
 
     public static final int tileSize= originalTilesize* scale;
-    public final int maxScreenCol= 16;
+    public int maxScreenCol= 16;
     public int maxScreenRow= 12;
     public final int screenWidth= tileSize* maxScreenCol;
     public final int screenHight= tileSize* maxScreenRow;
@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Figure figure=new Figure(this,keyH);
     public Bonus obj[]= new Bonus[10];
     public Goal goal= new Goal();
+    public UI ui= new UI(this);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHight));
@@ -77,6 +78,7 @@ public class GamePanel extends JPanel implements Runnable{
         //GROUND
         if(finished){
             mapC.draw(g2);
+            ui.draw(g2);
         }
         //GOAL tile
         cnt=0;

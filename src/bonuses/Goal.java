@@ -10,7 +10,7 @@ public class Goal extends Bonus{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        solidAreaDefaultX= 10;
-        solidAreaDefaultY= 10;
+        solidAreaDefaultX= 4;
+        solidAreaDefaultY= 4;
     }
 }
