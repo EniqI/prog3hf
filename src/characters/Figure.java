@@ -36,8 +36,8 @@ public class Figure extends Character{
         getFigureImage();
     }
     public void setDefaultValues(){
-        x= 100;
-        y= 100;
+        x= 90;
+        y= 90;
         speed= 4;
         direction= "right";
     }

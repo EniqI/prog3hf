@@ -5,6 +5,7 @@ import main.GamePanel;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
 public class MapCreator {
@@ -13,7 +14,7 @@ public class MapCreator {
     public int[][] mapTileNum;
     public Ground[][] map;
     public MazeGenerator mazeGenerator;
-
+    public List<int[]> diamondPlaces;
     public MapCreator(GamePanel gp){
         this.gp= gp;
         tile= new Ground[10];
@@ -21,12 +22,12 @@ public class MapCreator {
         map= new Ground[gp.maxScreenCol][gp.maxScreenRow];
         mazeGenerator=new MazeGenerator(gp);
         getGroundImage();
-        //loadMap("src/ground/maps/map1.txt");
         if(gp.oldGame) {
             loadMap("./maps/map1.txt");
         }else {
-            mazeGenerator.generateMaze(gp.maxScreenCol,gp.maxScreenRow);
+            mazeGenerator.generateMaze(2,2);
             mazeGenerator.transformMaze(mapTileNum);
+            diamondPlaces= mazeGenerator.getNonWallTiles();
         }
     }
     public void getGroundImage(){
@@ -61,9 +62,7 @@ public class MapCreator {
             int row=0;
             while(col< gp.maxScreenCol && row< gp.maxScreenRow){
                 String line = br.readLine(); //ez is jo, vannak benne szamok
-
                 while (col< gp.maxScreenCol){
-
                     String[] numbers = line.split("\t");
                     int num= Integer.parseInt(numbers[col].strip());
                     mapTileNum[col][row]= num;
@@ -73,6 +72,14 @@ public class MapCreator {
                     col=0;
                     row++;
                 }
+            }
+            for(int i=0;i<2;i++){
+                String line = br.readLine();
+                String[] numbers = line.split("\t");
+                int xParam= Integer.parseInt(numbers[0].strip());
+                int yParam= Integer.parseInt(numbers[1].strip());
+                int[] place={xParam,yParam};
+                diamondPlaces.add(place);
             }
             br.close();
 

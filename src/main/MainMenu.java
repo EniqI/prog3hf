@@ -13,13 +13,13 @@ public class MainMenu extends JFrame implements ActionListener {
     JTextField name= new JTextField(20);
     JLabel select= new JLabel("SELECT THE SIZE");
     String[] sizes= {"SMALL","MEDIUM","BIG"};
-    JComboBox<String> gameSize= new JComboBox<>(sizes);
+    JComboBox<Object> gameSize= new JComboBox<>(sizes);
     JPanel buttonPanel= new JPanel();
     JPanel namePanel= new JPanel();
     JPanel sizePanel= new JPanel();
     String playerName;
 
-    GamePanel gp= new GamePanel();
+    GamePanel gp;
 
     public MainMenu(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +53,7 @@ public class MainMenu extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JFrame window= new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
+        window.setResizable(true);
         window.setTitle("Labirinth Extreme");
 
         GamePanel gamePanel= new GamePanel();
@@ -65,21 +65,24 @@ public class MainMenu extends JFrame implements ActionListener {
 
         if(e.getSource()==restart){
             gp.oldGame= true;
-            gp.playerName= name.getText();
+            String aaaa = (String) name.getText();
+            System.out.println(aaaa);
+            gp.playerName= aaaa;
             //load file from map and game
         }else if(e.getSource()==newGame){
             gp.oldGame= false;
             gp.playerName= this.name.getText();
-            switch (gameSize.getItemCount()){
-                case 0:
+            String whichSize=(String) gameSize.getSelectedItem();
+            switch (whichSize){
+                case "SMALL":
                     gp.maxScreenCol= 12;
                     gp.maxScreenRow= 9;
                     break;
-                case 1:
+                case "MEDIUM":
                     gp.maxScreenCol= 16;
                     gp.maxScreenRow= 12;
                     break;
-                case 2:
+                case "BIG":
                     gp.maxScreenCol= 20;
                     gp.maxScreenRow= 16;
                     break;

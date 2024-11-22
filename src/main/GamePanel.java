@@ -10,13 +10,13 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
     public String playerName;
-    public boolean oldGame;
+    public boolean oldGame=true;
     public static final int originalTilesize= 16;
     final static int scale= 3;
 
     public static final int tileSize= originalTilesize* scale;
-    public int maxScreenCol= 16;
-    public int maxScreenRow= 12;
+    public int maxScreenCol;
+    public int maxScreenRow;
     public final int screenWidth= tileSize* maxScreenCol;
     public final int screenHight= tileSize* maxScreenRow;
     //FPS
@@ -38,9 +38,9 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
     }
-
+    //ha fileból olvasunk be, akkor betölti a fileból a helyüket, ha új game, akkor lekéri
     public void setUpGame(){
-        aSetter.setObject();
+        aSetter.setObject(mapC.diamondPlaces);
     }
 
     public void startGameThread(){

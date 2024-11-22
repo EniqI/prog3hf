@@ -12,18 +12,23 @@ public class MazeGenerator {
         private Tile[][] maze;
 
         // Tile class representing each cell in the maze
-        private static class Tile {
-            boolean isWall = true;
 
-            public Tile(boolean isWall) {
-                this.isWall = isWall;
-            }
+            private static class Tile {
+                boolean isWall = true;
+                boolean isStart = false;
+                boolean isEnd = false;
 
-            @Override
-            public String toString() {
-                return isWall ? "#" : " ";
+                public Tile(boolean isWall) {
+                    this.isWall = isWall;
+                }
+
+                @Override
+                public String toString() {
+                    if (isStart) return "S"; // Mark start tile with 'S'
+                    if (isEnd) return "E";   // Mark end tile with 'E'
+                    return isWall ? "#" : " ";
+                }
             }
-        }
 
         public MazeGenerator(GamePanel gp) {
             this.rows = gp.maxScreenRow;
@@ -40,7 +45,18 @@ public class MazeGenerator {
 
         // Generate the maze using recursive backtracking
         public void generateMaze(int startRow, int startCol) {
+            // Set the start tile
+            maze[startRow][startCol].isWall = false;
+            maze[startRow][startCol].isStart = true;
+
+            // Generate the maze
             carvePath(startRow, startCol);
+
+            // Set the end tile
+            int endRow = rows - 2; // Second-to-last row
+            int endCol = cols - 2; // Second-to-last column
+            maze[endRow][endCol].isWall = false;
+            maze[endRow][endCol].isEnd = true;
         }
 
         private void carvePath(int row, int col) {
@@ -77,6 +93,18 @@ public class MazeGenerator {
         private boolean isInBounds(int row, int col) {
             return row > 0 && row < rows - 1 && col > 0 && col < cols - 1;
         }
+
+    public List<int[]> getNonWallTiles() {
+        List<int[]> nonWallTiles = new ArrayList<>();
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (!maze[row][col].isWall && !maze[row][col].isStart && !maze[row][col].isEnd) {
+                    nonWallTiles.add(new int[]{row, col});
+                }
+            }
+        }
+        return nonWallTiles;
+    }
 
     public void transformMaze( int[][] map){
         int col= 0;
