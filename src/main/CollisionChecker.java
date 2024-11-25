@@ -4,11 +4,32 @@ import bonuses.Bonus;
 import characters.Character;
 import characters.Figure;
 
+/**
+ * The CollisionChecker class is responsible for handling collision detection
+ * between characters and tiles, bonuses, or goals within the game panel.
+ */
 public class CollisionChecker {
+   /**
+    * The GamePanel instance associated with the CollisionChecker.
+    * This variable allows the CollisionChecker to interact with the overall game state and UI elements
+    * provided by the GamePanel.
+    */
    GamePanel gp;
+    /**
+     * Constructor for the CollisionChecker class.
+     *
+     * @param gp The GamePanel instance to associate with this CollisionChecker.
+     */
     public  CollisionChecker(GamePanel gp){
         this.gp= gp;
     }
+    /**
+     * Checks the tile collisions for the given character based on its current position and direction.
+     * It determines which tiles the character is trying to move into and sets the collision flag
+     * if any of those tiles are impassable.
+     *
+     * @param character the character whose tile collisions are to be checked
+     */
     public void checkTile(Character character){
         int characterLeftX= character.x+ character.solidArea.x;
         int characterRightX= character.x+ character.solidArea.width;
@@ -57,6 +78,15 @@ public class CollisionChecker {
                 break;
         }
     }
+    /**
+     * Checks for collisions between a character and bonus objects present in the game panel.
+     * Depending on the character's direction, it updates the character's position and determines
+     * if it intersects with any bonus objects.
+     *
+     * @param character the character whose collision with bonus objects is to be checked
+     * @param player a boolean indicating if the character is a player
+     * @return the index of the bonus object that the character collides with, or 999 if no collision occurs
+     */
     public int checkBonus(Character character, boolean player){
         int returnValue= 999;
         int placeInArray=0;
@@ -124,6 +154,16 @@ public class CollisionChecker {
         }
         return returnValue;
     }
+    /**
+     * Checks if the character has reached the goal and updates the game state accordingly.
+     *
+     * This method adjusts the character's solid area based on its current direction and speed,
+     * checks for intersections with the goal area's solid area, and updates the
+     * character's collision status and the game panel's finished status if necessary.
+     *
+     * @param character the character whose position is being checked against the goal.
+     * @param player indicates if the character is controlled by the player.
+     */
     public void checkGoal(Character character, boolean player) {
 
         //get entities solid area position

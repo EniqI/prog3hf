@@ -9,16 +9,67 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The MapCreator class is responsible for creating and managing the game map,
+ * including loading tile images, generating and transforming mazes, and
+ * placing key game elements such as diamonds and the end goal.
+ */
 public class MapCreator {
+    /**
+     * An instance of the GamePanel class used for managing and rendering
+     * the game's graphical user interface and core game components.
+     */
     GamePanel gp;
+    /**
+     * Represents the array of ground tiles on the map.
+     * Each element in the array is an object of the Ground class, which includes
+     * properties for image representation and collision detection.
+     * This field is used to construct and manage different segments of the game map.
+     */
     public Ground[] tile;
+    /**
+     * This variable represents the tile numbers for the map being created or modified.
+     * Each element in the 2D array corresponds to a specific tile in the map grid.
+     * The values within the array indicate the type or ID of each tile.
+     */
     public int[][] mapTileNum;
+    /**
+     * A 2D array representing the game map. Each element in the array is a
+     * Ground object, which specifies the type of ground tile at that position.
+     */
     public Ground[][] map;
+    /**
+     * The mazeGenerator variable is an instance of the MazeGenerator class, used for generating and managing maze structures.
+     * It initializes and configures the maze based on the dimensions and other properties defined in the GamePanel instance.
+     * The maze generation involves creating a grid of tiles, defining walls and paths using a maze generation algorithm, and
+     * marking the start and end positions within the maze.
+     */
     public MazeGenerator mazeGenerator;
+    /**
+     * A list of coordinates representing the locations of diamond tiles within the game map.
+     * Each entry in the list is an integer array where the first element is the x-coordinate
+     * and the second element is the y-coordinate of a diamond's position.
+     */
     public List<int[]> diamondPlaces;
+    /**
+     * A list of possible locations for placing diamonds on the game map.
+     * Each location is represented as an integer array with coordinates.
+     */
     public List<int[]> possibleDiamondPlaces;
+    /**
+     * Represents the end tile in the game, marking the goal position that the player needs to reach.
+     * This tile is an instance of the Goal class, which extends the Bonus class, and is utilized
+     * by the MapCreator class to define and save the end position within the map.
+     * The Goal class includes properties such as collision status and image, as well as
+     * methods to set its x and y coordinates.
+     */
     public Goal endTile;
 
+    /**
+     * Constructs a new MapCreator instance and initializes all required fields.
+     *
+     * @param gp the GamePanel instance used to initialize and interact with the map
+     */
     public MapCreator(GamePanel gp) {
         this.gp = gp;
         tile = new Ground[10];
@@ -39,6 +90,19 @@ public class MapCreator {
 
 
 
+    /**
+     * Loads ground images for different types of tiles and initializes the collision attribute
+     * for certain tiles. The tile images are loaded from the specified file paths.
+     *
+     * This method assigns images to different tile objects as follows:
+     * - road.png: A road tile
+     * - dirt.png: A dirt tile
+     * - magma.png: A magma tile; has collision enabled
+     * - lava.png: A lava tile; has collision enabled
+     * - fire.jpg: A fire tile; has collision enabled
+     *
+     * If an error occurs while reading an image file, the exception stack trace is printed.
+     */
     public void getGroundImage() {
         try {
             tile[0] = new Ground();
@@ -64,6 +128,15 @@ public class MapCreator {
         }
     }
 
+    /**
+     * Loads the map and diamond positions from a file.
+     *
+     * The method reads the map tiles and diamond positions from a specified file.
+     * The map tiles are stored as integers in a 2D array, and the diamond positions
+     * are stored in a list. The last diamond position is set as the end tile.
+     *
+     * @param filePath the file path to load the map from
+     */
     public void loadMap(String filePath) {
         try {
             InputStream is = new FileInputStream(filePath); // File system path
@@ -108,54 +181,11 @@ public class MapCreator {
             e.printStackTrace();
         }
     }
-/*
-    public void saveMap(){
-       String filename = "./maps/map1.txt";
-        if (gp.oldGame) {
-            switch(gp.maxScreenRow){
-                case 9:
-                    filename="./maps/smallmap.txt";
-                    break;
-                case 12:
-                    filename= "./maps/meduimmap.txt";
-                    break;
-                case 16:
-                    filename="./maps/bigmap.txt";
-                    break;
-                default:
-                    filename = "./maps/map1.txt";
-            }
-        }
-        FileWriter fw= null;
-        try {
-            fw = new FileWriter(filename);
-            BufferedWriter bw= new BufferedWriter(fw);
-            for(int i=0;i<gp.maxScreenRow;i++){
-                for(int j=0;j<gp.maxScreenCol;j++){
-                    bw.write(mapTileNum[j][i]);
-                    bw.write('\t');
-                }
-                bw.write('\n');
-            }
-            diamondPlaces=gp.aSetter.getDiamondPlaces();
-            for(int i=0;i<diamondPlaces.size();i++){
-                int[] place= diamondPlaces.get(i);
-                bw.write(place[0]);
-                bw.write('\t');
-                bw.write(place[1]);
-                bw.write('\n');
-            }
-            bw.write(endTile.x);
-            bw.write('\t');
-            bw.write(endTile.y);
-
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-*/
+/**
+ * Draws the map on the given Graphics2D object based on the current state of the map tiles.
+ *
+ * @param g2 The Graphics2D object used for drawing the map.
+ */
     public void draw(Graphics2D g2) {
         int col = 0;
         int row = 0;

@@ -2,6 +2,11 @@ package bonuses;
 
 import javax.imageio.ImageIO;
 
+/**
+ * The Goal class represents the goal in the game, extending the Bonus class.
+ * This class is responsible for initializing the goal with specific properties such as name, collision status, and image.
+ * It also provides methods to set the x and y coordinates of the goal.
+ */
 public class Goal extends Bonus{
     public Goal(){
         name="Goal!";

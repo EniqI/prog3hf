@@ -8,19 +8,72 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
+/**
+ * The MainMenu class represents the main menu interface for the "Labirinth Extreme" game.
+ * It allows the user to set up a new game by providing a name and selecting the game size.
+ * The main menu consists of several GUI components including buttons, labels, text fields,
+ * and combo boxes to input user details and preferences.
+ *
+ * This class extends JFrame and implements ActionListener to handle user interactions.
+ *
+ * The available game sizes are:
+ * - SMALL
+ * - MEDIUM
+ * - BIG
+ *
+ * Once the user inputs their name and selects the game size, they can start a new game,
+ * and a new game window will be displayed with the selected configuration.
+ */
 public class MainMenu extends JFrame implements ActionListener {
+    /**
+     * Represents a button labeled*/
     JButton menuButton= new JButton("MENU");
+    /**
+     * JButton used to start a new game.
+     */
     JButton newGame = new JButton("NEW GAME");
+    /**
+     * A JLabel instance used to prompt the user to add their name.
+     * It displays the text "ADD YOUR NAME".
+     */
     JLabel addName = new JLabel("ADD YOUR NAME");
+    /**
+     *
+     */
     JTextField name = new JTextField(20);
+    /**
+     * A JLabel component that displays the prompt for the user
+     * to select the size of the game or application component
+     * within*/
     JLabel select = new JLabel("SELECT THE SIZE");
+    /**
+     *
+     */
     String[] sizes = {"SMALL", "MEDIUM", "BIG"};
+    /**
+     * A combo box component in the main menu that allows the user to select the size of the game.
+     * The list of sizes available for selection are provided by the array `sizes`.
+     */
     JComboBox<String> gameSize = new JComboBox<>(sizes);
+    /**
+     * A JPanel that contains*/
     JPanel buttonPanel = new JPanel();
+    /**
+     * A JPanel component used in the MainMenu class.
+     * This panel is dedicated to handling and displaying name-related inputs.
+     */
     JPanel namePanel = new JPanel();
+    /**
+     *
+     */
     JPanel sizePanel = new JPanel();
+    /**
+     * The GamePanel instance representing the main panel where the game is rendered.
+     */
     GamePanel gp;
 
+    /**
+     * The MainMenu class initializes and*/
     public MainMenu() {
         //gp = new GamePanel();
 
@@ -54,6 +107,9 @@ public class MainMenu extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
+    /**
+     * Handles action events triggered by user interaction. Specifically, it manages
+     * the creation of a new game based*/
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getSource());

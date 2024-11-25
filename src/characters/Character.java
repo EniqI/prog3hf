@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
+/**
+ * Represents a character in the game, including its position, speed, direction,
+ * graphical representation, collision status, and bonus points.
+ */
 public class Character {
     public int x,y;
     public int speed;

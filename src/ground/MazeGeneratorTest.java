@@ -8,6 +8,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the MazeGenerator class.
+ */
 class MazeGeneratorTest {
 
     @Test
@@ -20,15 +23,6 @@ class MazeGeneratorTest {
         int[] actual= mg.getEnd();
         assertArrayEquals(expected,actual);
     }
-/*
-    @Test
-    void generateMaze() {
-        GamePanel gp=new GamePanel();
-        gp.oldGame= false;
-        MazeGenerator mg= new MazeGenerator(gp);
-        mg.generateMaze(2,2);
-        String expected= "S";
-    }*/
 
     @Test
     void getNonWallTiles() {

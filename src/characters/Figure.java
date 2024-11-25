@@ -8,11 +8,21 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Represents a game figure controlled by the player.
+ * The figure can move in different directions and interact with various objects in the game world.
+ */
 public class Figure extends Character {
     GamePanel gp;
     KeyHandler keyH;
     int bonusPoints=0;
 
+    /**
+     * Constructs a new Figure object.
+     *
+     * @param gp   the game panel in which the figure will be rendered and updated
+     * @param keyH the key handler to manage user input for the figure
+     */
     public Figure(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
@@ -25,6 +35,11 @@ public class Figure extends Character {
         getFigureImage();
     }
 
+    /**
+     * Sets the default values for the figure's position, speed, and direction.
+     * This method initializes the figure's x and y coordinates to 50, speed to 4,
+     * and direction to "right".
+     */
     public void setDefaultValues() {
         x = 50;
         y = 50;
@@ -32,6 +47,13 @@ public class Figure extends Character {
         direction = "right";
     }
 
+    /**
+     * Loads the images of the character figure in different directions.
+     *
+     * This method reads image files for the figure's movements (up, down, left, right)
+     * and assigns them to corresponding BufferedImage fields.
+     * It catches and logs any IOException that may occur during the image loading process.
+     */
     public void getFigureImage() {
         try {
             up1= ImageIO.read(getClass().getResourceAsStream("./figureimages/boy_up_1.png"));
@@ -47,6 +69,14 @@ public class Figure extends Character {
         }
     }
 
+    /**
+     * Updates the state of the Figure based on input and collisions.
+     *
+     * The method checks input from the KeyHandler to determine the direction of movement.
+     * It performs collision detection with tiles, bonuses, and the goal.
+     * The character's position is updated based on the direction and the absence of collisions.
+     * The sprite is toggled to animate the character's movement.
+     */
     public void update() {
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) direction = "up";
@@ -77,6 +107,14 @@ public class Figure extends Character {
         }
     }
 
+    /**
+     * Handles the logic for the player character to pick up an object.
+     * If the object at the given index is not null and the index is not 999,
+     * the object is picked up, a message is printed, the object is removed,
+     * and bonus points are incremented.
+     *
+     * @param index the index of the object to be picked up
+     */
     public void pickUpObject(int index) {
         if (index != 999 && gp.obj[index] != null) {
             System.out.println(gp.obj[index].name);
@@ -84,8 +122,22 @@ public class Figure extends Character {
             bonusPoints += 1;
         }
     }
+    /**
+     * Retrieves the current bonus points accumulated by the figure.
+     *
+     * @return the number of bonus points.
+     */
     public int getBonusPoints(){return bonusPoints;}
 
+    /**
+     * Draws the current sprite of the character on the given Graphics2D context
+     * at the character's x and y coordinates. The sprite drawn depends on
+     * the character's direction and sprite number.
+     *
+     * If a corresponding image is not found, a red rectangle is drawn instead.
+     *
+     * @param g2 the Graphics2D context on which to draw the sprite
+     */
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
