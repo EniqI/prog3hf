@@ -19,7 +19,7 @@ public class UI {
      * A Font object representing "Times New Roman" with a bold style and size 40.
      * Utilized for rendering congratulatory messages when the player wins.
      */
-    Font TimesNewRoman_40;
+    Font TimesNewRoman_20;
 
     /**
      * Initializes the UI with the given GamePanel and sets up the font for rendering texts.
@@ -28,7 +28,7 @@ public class UI {
      */
     public  UI(GamePanel gp){
         this.gp=gp;
-        TimesNewRoman_40= new Font("Times New Roman", Font.BOLD,40);
+        TimesNewRoman_20= new Font("Times New Roman", Font.BOLD,20);
     }
     /**
      * Draws the congratulatory message on the provided Graphics2D context when the player wins the game.
@@ -36,7 +36,7 @@ public class UI {
      * @param g2 the Graphics2D context on which to draw the message
      */
     public void draw(Graphics2D g2){
-        g2.setFont(TimesNewRoman_40);
+        g2.setFont(TimesNewRoman_20);
         g2.setColor(Color.white);
         g2.drawString("CONGRATS "+gp.playerName+" \n you won!", 1* gp.tileSize, 3* gp.tileSize);
 
