@@ -10,15 +10,15 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
     public String playerName;
-    public boolean oldGame=true;
+    public boolean oldGame;
     public static final int originalTilesize= 16;
     final static int scale= 3;
 
     public static final int tileSize= originalTilesize* scale;
     public int maxScreenCol= 20;
-    public int maxScreenRow= 20;
-    public final int screenWidth= tileSize* maxScreenCol;
-    public final int screenHight= tileSize* maxScreenRow;
+    public int maxScreenRow= 17;
+    public int screenWidth= tileSize* maxScreenCol;
+    public int screenHight= tileSize* maxScreenRow;
     //FPS
     int FPS= 60;
     MapCreator mapC= new MapCreator(this);
@@ -42,7 +42,9 @@ public class GamePanel extends JPanel implements Runnable{
     public void setScreenSize(int maxScreenCol, int maxScreenRow) {
         this.maxScreenCol = maxScreenCol;
         this.maxScreenRow = maxScreenRow;
-        this.setPreferredSize(new Dimension(tileSize * maxScreenCol, tileSize * maxScreenRow));
+        this.screenWidth= maxScreenCol* tileSize;
+        this.screenHight= maxScreenRow* tileSize;
+        this.setPreferredSize(new Dimension(screenWidth,screenHight));
     }
     //ha fileból olvasunk be, akkor betölti a fileból a helyüket, ha új game, akkor lekéri
     public void setUpGame(){
@@ -67,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable{
         int[] endCoordinates = mapC.mazeGenerator.getEnd();
         if (figure.x == endCoordinates[0] * tileSize && figure.y == endCoordinates[1] * tileSize) {
             System.out.println("Game Completed!");
+            mapC.saveMap();
             endGameThread(); // Stop the game thread
         }
     }
@@ -106,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         if (!gameOver) {
             // Draw the regular game elements
-            //mapC.draw(g2); // Ground
+            mapC.draw(g2); // Ground
             for (Bonus element : obj) {
                 if (element != null) {
                     element.draw(g2, this); // Bonuses
@@ -115,12 +118,7 @@ public class GamePanel extends JPanel implements Runnable{
             figure.draw(g2); // Player
         } else {
             // Display the winning message
-            String message = "Congrats " + playerName + ", you won!";
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Arial", Font.BOLD, 40));
-            int x = screenWidth / 2 - g2.getFontMetrics().stringWidth(message) / 2;
-            int y = screenHight / 2;
-            g2.drawString(message, x, y);
+            ui.draw(g2);
         }
         g2.dispose();
     }

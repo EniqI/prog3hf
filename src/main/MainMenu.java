@@ -24,7 +24,7 @@ public class MainMenu extends JFrame implements ActionListener {
     GamePanel gp;
 
     public MainMenu() {
-        gp = new GamePanel();
+        //gp = new GamePanel();
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -59,8 +59,11 @@ public class MainMenu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        gp=new GamePanel();
+        System.out.println(e.getSource());
         if (e.getSource() == restart) {
             gp.oldGame = true;
+            System.out.println(gp.oldGame);
             gp.playerName = name.getText().trim();
             if (gp.playerName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your name!");
@@ -69,12 +72,14 @@ public class MainMenu extends JFrame implements ActionListener {
             // Load game state
         } else if (e.getSource() == newGame) {
             gp.oldGame = false;
+            System.out.println(gp.oldGame);
             gp.playerName = name.getText().trim();
             if (gp.playerName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your name!");
                 return;
             }
             String whichSize = (String) gameSize.getSelectedItem();
+            System.out.println(whichSize);
             switch (whichSize) {
                 case "SMALL" -> {
                     gp.setScreenSize(12,9);
@@ -85,7 +90,7 @@ public class MainMenu extends JFrame implements ActionListener {
                 case "BIG" -> {
                     gp.setScreenSize(20,16);
                 }
-                default ->{gp.setScreenSize(20,20);}
+                default ->{gp.setScreenSize(20,17);}
             }
         }
 

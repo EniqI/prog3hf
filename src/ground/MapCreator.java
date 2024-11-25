@@ -16,6 +16,7 @@ public class MapCreator {
     public Ground[][] map;
     public MazeGenerator mazeGenerator;
     public List<int[]> diamondPlaces;
+    public List<int[]> possibleDiamondPlaces;
     public Goal endTile;
 
     public MapCreator(GamePanel gp) {
@@ -25,27 +26,28 @@ public class MapCreator {
         map = new Ground[gp.maxScreenCol][gp.maxScreenRow];
         mazeGenerator = new MazeGenerator(gp);
         diamondPlaces = new ArrayList<>(); // Initialize diamondPlaces
+        possibleDiamondPlaces= new ArrayList<>();
         endTile= new Goal();
         getGroundImage();
 
         if (gp.oldGame) {
             switch(gp.maxScreenRow){
                 case 9:
-                    loadMap("./maps/smallmap.txt");
+                    loadMap("src/ground/maps/smallmap.txt");
                     break;
                 case 12:
-                    loadMap("./maps/meduimmap.txt");
+                    loadMap("src/ground/maps/meduimmap.txt");
                     break;
                 case 16:
-                    loadMap("./maps/bigmap.txt");
+                    loadMap("src/ground/maps/bigmap.txt");
                     break;
                 default:
-                    loadMap("./maps/easteregg.txt");
+                    loadMap("src/ground/maps/easteregg.txt");
             }
         } else {
             mazeGenerator.generateMaze(2, 2);
             mazeGenerator.transformMaze(mapTileNum);
-            diamondPlaces = mazeGenerator.getNonWallTiles();
+            possibleDiamondPlaces = mazeGenerator.getNonWallTiles();
             int[] endPosition= mazeGenerator.getEnd();
             endTile.setX(endPosition[0]);
             endTile.setY(endPosition[1]);
@@ -120,6 +122,53 @@ public class MapCreator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveMap(){
+       String filename = "./maps/map1.txt";
+        if (gp.oldGame) {
+            switch(gp.maxScreenRow){
+                case 9:
+                    filename="./maps/smallmap.txt";
+                    break;
+                case 12:
+                    filename= "./maps/meduimmap.txt";
+                    break;
+                case 16:
+                    filename="./maps/bigmap.txt";
+                    break;
+                default:
+                    filename = "./maps/map1.txt";
+            }
+        }
+        FileWriter fw= null;
+        try {
+            fw = new FileWriter(filename);
+            BufferedWriter bw= new BufferedWriter(fw);
+            for(int i=0;i<gp.maxScreenRow;i++){
+                for(int j=0;j<gp.maxScreenCol;j++){
+                    bw.write(mapTileNum[j][i]);
+                    bw.write('\t');
+                }
+                bw.write('\n');
+            }
+            diamondPlaces=gp.aSetter.getDiamondPlaces();
+            for(int i=0;i<diamondPlaces.size();i++){
+                int[] place= diamondPlaces.get(i);
+                bw.write(place[0]);
+                bw.write('\t');
+                bw.write(place[1]);
+                bw.write('\n');
+            }
+            bw.write(endTile.x);
+            bw.write('\t');
+            bw.write(endTile.y);
+
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void draw(Graphics2D g2) {

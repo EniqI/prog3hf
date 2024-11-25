@@ -105,7 +105,7 @@ public class MazeGenerator {
     public void transformMaze(int[][] map) {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                map[row][col] = maze[row][col].isWall ? WALL_TILE : PATH_TILE;
+                map[col][row] = maze[col][row].isWall ? WALL_TILE : PATH_TILE;
             }
         }
     }
