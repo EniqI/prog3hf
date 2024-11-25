@@ -14,7 +14,7 @@ public class AssetSetter {
     }
 
     public void setObject(List<int[]> whereToPut) {
-        int numberOfObjects = 2; // Configurable constant for flexibility
+        int numberOfObjects = 2;
         if (whereToPut.size() < numberOfObjects) {
             System.err.println("Not enough available positions to place objects.");
             return;
