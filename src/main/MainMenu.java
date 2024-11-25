@@ -16,7 +16,7 @@ public class MainMenu extends JFrame implements ActionListener {
     JTextField name = new JTextField(20);
     JLabel select = new JLabel("SELECT THE SIZE");
     String[] sizes = {"SMALL", "MEDIUM", "BIG"};
-    JComboBox<Object> gameSize = new JComboBox<>(sizes);
+    JComboBox<String> gameSize = new JComboBox<>(sizes);
     JPanel buttonPanel = new JPanel();
     JPanel namePanel = new JPanel();
     JPanel sizePanel = new JPanel();
