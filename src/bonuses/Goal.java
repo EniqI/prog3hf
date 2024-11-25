@@ -13,4 +13,10 @@ public class Goal extends Bonus{
         solidAreaDefaultX= 4;
         solidAreaDefaultY= 4;
     }
+    public void setX(int xCoord){
+        this.x= xCoord;
+    }
+    public void setY(int yCoord){
+        this.y= yCoord;
+    }
 }

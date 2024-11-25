@@ -15,8 +15,8 @@ public class GamePanel extends JPanel implements Runnable{
     final static int scale= 3;
 
     public static final int tileSize= originalTilesize* scale;
-    public int maxScreenCol;
-    public int maxScreenRow;
+    public int maxScreenCol= 20;
+    public int maxScreenRow= 20;
     public final int screenWidth= tileSize* maxScreenCol;
     public final int screenHight= tileSize* maxScreenRow;
     //FPS
@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Bonus obj[]= new Bonus[10];
     public Goal goal= new Goal();
     public UI ui= new UI(this);
+    public boolean gameOver = false;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHight));
@@ -37,6 +38,11 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+    public void setScreenSize(int maxScreenCol, int maxScreenRow) {
+        this.maxScreenCol = maxScreenCol;
+        this.maxScreenRow = maxScreenRow;
+        this.setPreferredSize(new Dimension(tileSize * maxScreenCol, tileSize * maxScreenRow));
     }
     //ha fileból olvasunk be, akkor betölti a fileból a helyüket, ha új game, akkor lekéri
     public void setUpGame(){
@@ -48,59 +54,75 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
 
-    @Override
-    public void run(){
-        double drawInterval= (double) 1000000000 /FPS;
-        double delta=0;
-        long lastTime= System.nanoTime();
-        long currentTime;
-        while (gameThread != null){
-            currentTime= System.nanoTime();
-            delta+=(currentTime- lastTime)/drawInterval;
-            lastTime= currentTime;
+    public void endGameThread() {
+        if (gameThread != null) {
+            gameThread = null; // Stop the thread
+            gameOver = true;   // Set the game over flag
+            System.out.println("Game thread ended.");
+        }
+    }
 
-            if(delta>=1){
+
+    public void checkEndCondition() {
+        int[] endCoordinates = mapC.mazeGenerator.getEnd();
+        if (figure.x == endCoordinates[0] * tileSize && figure.y == endCoordinates[1] * tileSize) {
+            System.out.println("Game Completed!");
+            endGameThread(); // Stop the game thread
+        }
+    }
+    @Override
+    public void run() {
+        double drawInterval = (double) 1000000000 / FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+
+        while (gameThread != null) { // Loop will stop when gameThread is null
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
             }
         }
+        System.out.println("Game loop terminated.");
+    }
 
-    }
-    public void update(){
+    public void update() {
         figure.update();
+        checkEndCondition(); // Check if the game should end
     }
+
 
     int cnt=0;
     boolean finished=false;
-    public void paintComponent(Graphics g){
+    @Override
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2=(Graphics2D) g;
-        //GROUND
-        if(finished){
-            //mapC.draw(g2);
-            ui.draw(g2);
-        }
-        //GOAL tile
-        cnt=0;
-        for(Bonus element: obj){
-            if(element!=null){
-                cnt+=1;
-            }
-        }
-        if(cnt==0){
-            goal.collision=true;
-            goal.draw(g2,this);
-        }
+        Graphics2D g2 = (Graphics2D) g;
 
-        //BONUS
-        for(Bonus element: obj){
-            if(element!=null){
-                element.draw(g2,this);
+        if (!gameOver) {
+            // Draw the regular game elements
+            //mapC.draw(g2); // Ground
+            for (Bonus element : obj) {
+                if (element != null) {
+                    element.draw(g2, this); // Bonuses
+                }
             }
+            figure.draw(g2); // Player
+        } else {
+            // Display the winning message
+            String message = "Congrats " + playerName + ", you won!";
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 40));
+            int x = screenWidth / 2 - g2.getFontMetrics().stringWidth(message) / 2;
+            int y = screenHight / 2;
+            g2.drawString(message, x, y);
         }
-        //FIGURE
-        figure.draw(g2);
         g2.dispose();
     }
+
 }
