@@ -3,6 +3,7 @@ package ground;
 import main.GamePanel;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,8 +12,9 @@ class MazeGeneratorTest {
 
     @Test
     void getEnd() {
-        GamePanel gp=new GamePanel();
-        gp.oldGame= false;
+        JFrame frame=new JFrame();
+        GamePanel gp=new GamePanel(20,20,frame);
+
         MazeGenerator mg= new MazeGenerator(gp);
         int[] expected= {18,18};
         int[] actual= mg.getEnd();
@@ -30,8 +32,9 @@ class MazeGeneratorTest {
 
     @Test
     void getNonWallTiles() {
-        GamePanel gp=new GamePanel();
-        gp.oldGame= false;
+        JFrame frame= new JFrame();
+        GamePanel gp=new GamePanel(20,20,frame);
+
         MazeGenerator mg= new MazeGenerator(gp);
         mg.generateMaze(2,2);
         int unexpected= 0;

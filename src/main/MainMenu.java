@@ -9,8 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class MainMenu extends JFrame implements ActionListener {
-
-    JButton restart = new JButton("RESTART");
+    JButton menuButton= new JButton("MENU");
     JButton newGame = new JButton("NEW GAME");
     JLabel addName = new JLabel("ADD YOUR NAME");
     JTextField name = new JTextField(20);
@@ -20,7 +19,6 @@ public class MainMenu extends JFrame implements ActionListener {
     JPanel buttonPanel = new JPanel();
     JPanel namePanel = new JPanel();
     JPanel sizePanel = new JPanel();
-
     GamePanel gp;
 
     public MainMenu() {
@@ -33,10 +31,9 @@ public class MainMenu extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
 
         newGame.addActionListener(this);
-        restart.addActionListener(this);
+        menuButton.addActionListener(this);
 
         buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.add(restart);
         buttonPanel.add(newGame);
 
         namePanel.setLayout(new FlowLayout());
@@ -59,51 +56,42 @@ public class MainMenu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gp=new GamePanel();
         System.out.println(e.getSource());
-        if (e.getSource() == restart) {
-            gp.oldGame = true;
-            System.out.println(gp.oldGame);
-            gp.playerName = name.getText().trim();
-            if (gp.playerName.isEmpty()) {
+        String nameAdded= name.getText().trim();
+        String whichSize = (String) gameSize.getSelectedItem();
+        JFrame gameWindow = new JFrame();
+        if (e.getSource() == newGame) {
+
+            if (nameAdded.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your name!");
                 return;
             }
-            // Load game state
-        } else if (e.getSource() == newGame) {
-            gp.oldGame = false;
-            System.out.println(gp.oldGame);
-            gp.playerName = name.getText().trim();
-            if (gp.playerName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter your name!");
-                return;
-            }
-            String whichSize = (String) gameSize.getSelectedItem();
-            System.out.println(whichSize);
+
             switch (whichSize) {
                 case "SMALL" -> {
-                    gp.setScreenSize(12,9);
+                    gp = new GamePanel(12, 9, gameWindow);
                 }
                 case "MEDIUM" -> {
-                    gp.setScreenSize(16,12);
+                    gp = new GamePanel(16, 12, gameWindow);
                 }
                 case "BIG" -> {
-                    gp.setScreenSize(20,16);
+                    gp = new GamePanel(20, 16, gameWindow);
                 }
-                default ->{gp.setScreenSize(20,17);}
+                default -> {
+                    gp = new GamePanel(20, 17, gameWindow);
+                }
             }
-        }
 
-        this.setVisible(false); // Hide the main menu
-        JFrame gameWindow = new JFrame();
-        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameWindow.setResizable(true);
-        gameWindow.setTitle("Labirinth Extreme");
-        gameWindow.add(gp);
-        gameWindow.setSize(gp.screenWidth, gp.screenHight);
-        gameWindow.setLocationRelativeTo(null);
-        gameWindow.setVisible(true);
-        gp.setUpGame();
-        gp.startGameThread();
+            gp.playerName = nameAdded;
+            gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gameWindow.setResizable(true);
+            gameWindow.setTitle("Labirinth Extreme");
+            gameWindow.add(gp);
+            gameWindow.setSize(gp.screenWidth, gp.screenHight);
+            gameWindow.setLocationRelativeTo(null);
+            gameWindow.setVisible(true);
+            gp.setUpGame();
+            gp.startGameThread();
+        }
     }
 }

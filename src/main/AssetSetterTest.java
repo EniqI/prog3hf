@@ -2,6 +2,7 @@ package main;
 
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,8 @@ class AssetSetterTest {
 
     @Test
     void setObject() {
-        GamePanel gp=new GamePanel();
-        gp.oldGame=false;
+        JFrame frame=new JFrame();
+        GamePanel gp=new GamePanel(20,17,frame);
         List<int[]> places = new ArrayList<>();
         places.add(new int[]{2, 3});
         places.add(new int[]{28, 4});

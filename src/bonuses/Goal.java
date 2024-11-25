@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 public class Goal extends Bonus{
     public Goal(){
         name="Goal!";
+        collision=false;
         try {
             image= ImageIO.read(getClass().getResourceAsStream("./boniusimages/goal.png"));
         } catch (Exception e) {

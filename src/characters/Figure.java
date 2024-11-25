@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Figure extends Character {
     GamePanel gp;
     KeyHandler keyH;
+    int bonusPoints=0;
 
     public Figure(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -25,8 +26,8 @@ public class Figure extends Character {
     }
 
     public void setDefaultValues() {
-        x = 90;
-        y = 90;
+        x = 50;
+        y = 50;
         speed = 4;
         direction = "right";
     }
@@ -83,6 +84,7 @@ public class Figure extends Character {
             bonusPoints += 1;
         }
     }
+    public int getBonusPoints(){return bonusPoints;}
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;

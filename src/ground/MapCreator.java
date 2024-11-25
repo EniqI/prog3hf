@@ -29,30 +29,15 @@ public class MapCreator {
         possibleDiamondPlaces= new ArrayList<>();
         endTile= new Goal();
         getGroundImage();
-
-        if (gp.oldGame) {
-            switch(gp.maxScreenRow){
-                case 9:
-                    loadMap("src/ground/maps/smallmap.txt");
-                    break;
-                case 12:
-                    loadMap("src/ground/maps/meduimmap.txt");
-                    break;
-                case 16:
-                    loadMap("src/ground/maps/bigmap.txt");
-                    break;
-                default:
-                    loadMap("src/ground/maps/easteregg.txt");
-            }
-        } else {
-            mazeGenerator.generateMaze(2, 2);
-            mazeGenerator.transformMaze(mapTileNum);
-            possibleDiamondPlaces = mazeGenerator.getNonWallTiles();
-            int[] endPosition= mazeGenerator.getEnd();
-            endTile.setX(endPosition[0]);
-            endTile.setY(endPosition[1]);
-        }
+        mazeGenerator.generateMaze(1, 1);
+        mazeGenerator.transformMaze(mapTileNum);
+        possibleDiamondPlaces = mazeGenerator.getNonWallTiles();
+        int[] endPosition= mazeGenerator.getEnd();
+        endTile.setX(gp.maxScreenCol-2);
+        endTile.setY(gp.maxScreenRow-2);
     }
+
+
 
     public void getGroundImage() {
         try {
@@ -123,7 +108,7 @@ public class MapCreator {
             e.printStackTrace();
         }
     }
-
+/*
     public void saveMap(){
        String filename = "./maps/map1.txt";
         if (gp.oldGame) {
@@ -170,7 +155,7 @@ public class MapCreator {
         }
 
     }
-
+*/
     public void draw(Graphics2D g2) {
         int col = 0;
         int row = 0;

@@ -38,8 +38,8 @@ public class MazeGenerator {
     }
 
     public MazeGenerator(GamePanel gp) {
-        this.rows = gp.maxScreenRow;
-        this.cols = gp.maxScreenCol;
+        this.rows = gp.maxScreenCol;
+        this.cols = gp.maxScreenRow;
         this.maze = new Tile[rows][cols];
         initializeMaze();
     }
@@ -105,7 +105,7 @@ public class MazeGenerator {
     public void transformMaze(int[][] map) {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                map[col][row] = maze[col][row].isWall ? WALL_TILE : PATH_TILE;
+                map[row][col] = maze[row][col].isWall ? 2 : 0;
             }
         }
     }

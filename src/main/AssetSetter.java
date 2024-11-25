@@ -35,6 +35,7 @@ public class AssetSetter {
             diamondPlaces.add(tileCoords);
         }
     }
+
     public List<int[]> getDiamondPlaces(){
         return diamondPlaces;
     }
