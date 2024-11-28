@@ -179,7 +179,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player && gp.figure.getBonusPoints()==2) {
                         gp.finished = true;
                     }
                 }
@@ -190,7 +190,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player &&  gp.figure.getBonusPoints()==2) {
                         gp.finished = true;
                     }
                 }
@@ -201,7 +201,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player &&  gp.figure.getBonusPoints()==2) {
                         gp.finished = true;
                     }
                 }
@@ -212,7 +212,7 @@ public class CollisionChecker {
                     if (gp.goal.collision) {
                         character.collisionOn = true;
                     }
-                    if (player) {
+                    if (player &&  gp.figure.getBonusPoints()==2) {
                         gp.finished = true;
                     }
                 }

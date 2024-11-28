@@ -83,9 +83,9 @@ public class MapCreator {
         mazeGenerator.generateMaze(1, 1);
         mazeGenerator.transformMaze(mapTileNum);
         possibleDiamondPlaces = mazeGenerator.getNonWallTiles();
-        int[] endPosition= mazeGenerator.getEnd();
-        endTile.setX(gp.maxScreenCol-2);
-        endTile.setY(gp.maxScreenRow-2);
+        //int[] endPosition= mazeGenerator.getEnd();
+        //endTile.setX(gp.maxScreenCol-2);
+        //endTile.setY(gp.maxScreenRow-2);
     }
 
 

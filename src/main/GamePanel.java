@@ -205,8 +205,8 @@ public class GamePanel extends JPanel implements Runnable{
         goal= new Goal();
         ui= new UI(this);
         gameOver = false;
-        goal.setX((maxScreenCol-2)*tileSize);
-        goal.setY((maxScreenRow-2)*tileSize);
+        goal.setX(((maxScreenCol-2)*tileSize));
+        goal.setY(((maxScreenRow-2)*tileSize));
     }
     /*public void setScreenSize(int maxScreenCol, int maxScreenRow) {
         this.maxScreenCol = maxScreenCol;

@@ -16,8 +16,8 @@ public class Goal extends Bonus{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        solidAreaDefaultX= 4;
-        solidAreaDefaultY= 4;
+        solidAreaDefaultX= 0;
+        solidAreaDefaultY= 0;
     }
     public void setX(int xCoord){
         this.x= xCoord;
