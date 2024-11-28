@@ -20,6 +20,8 @@ public class UI {
      * Utilized for rendering congratulatory messages when the player wins.
      */
     Font TimesNewRoman_20;
+    long elapsedMinutes;
+    long elapsedSeconds;
 
     /**
      * Initializes the UI with the given GamePanel and sets up the font for rendering texts.
@@ -38,7 +40,11 @@ public class UI {
     public void draw(Graphics2D g2){
         g2.setFont(TimesNewRoman_20);
         g2.setColor(Color.white);
-        g2.drawString("CONGRATS "+gp.playerName+" \n you won!", 1* gp.tileSize, 3* gp.tileSize);
+        elapsedMinutes= gp.elapsedTime/ 60;
+        elapsedSeconds= gp.elapsedTime% 60;
+
+        g2.drawString("CONGRATS "+gp.playerName+" you won!", 1* gp.tileSize, 3* gp.tileSize);
+        g2.drawString("Elapsed time: "+elapsedMinutes+" minutes and "+elapsedSeconds+" seconds.", 1* gp.tileSize, 4* gp.tileSize);
 
     }
 }

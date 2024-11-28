@@ -68,6 +68,10 @@ public class GamePanel extends JPanel implements Runnable{
      * It is used as a base measurement for scaling tiles to different sizes
      * within the game's graphical interface.
      */
+    public long startTime;
+    public long endTime;
+    public long elapsedTime;
+
     public static final int originalTilesize= 16;
     /**
      * Represents the scale factor for rendering elements within the GamePanel.
@@ -232,7 +236,17 @@ public class GamePanel extends JPanel implements Runnable{
     public void startGameThread(){
         gameThread= new Thread(this);
         gameThread.start();
+        startTimer();
     }
+
+    public void startTimer(){
+        startTime= System.currentTimeMillis();
+    }
+     public void endTimer(){
+        endTime= System.currentTimeMillis();
+        elapsedTime= endTime-startTime;
+        elapsedTime/=1000;
+     }
 
     /**
      * Ends the game thread and sets the game over flag. If the game thread is active,
@@ -242,8 +256,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void endGameThread() {
         if (gameThread != null) {
             gameThread = null; // Stop the thread
-            gameOver = true;   // Set the game over flag
-            System.out.println("Game thread ended.");
+            gameOver = true;// Set the game over flag
         }
     }
 
@@ -254,8 +267,8 @@ public class GamePanel extends JPanel implements Runnable{
      */
     public void checkEndCondition() {
             if (finished) {
-                System.out.println("Game Completed!");
                 endGameThread(); // Stop the game thread
+                endTimer();
             }
     }
     /**
@@ -292,7 +305,6 @@ public class GamePanel extends JPanel implements Runnable{
                 delta--;
             }
         }
-        System.out.println("Game loop terminated.");
     }
 
     /**

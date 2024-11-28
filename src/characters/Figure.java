@@ -117,7 +117,6 @@ public class Figure extends Character {
      */
     public void pickUpObject(int index) {
         if (index != 999 && gp.obj[index] != null) {
-            System.out.println(gp.obj[index].name);
             gp.obj[index] = null;
             bonusPoints += 1;
         }

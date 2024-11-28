@@ -112,7 +112,6 @@ public class MainMenu extends JFrame implements ActionListener {
      * the creation of a new game based*/
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getSource());
         String nameAdded= name.getText().trim();
         String whichSize = (String) gameSize.getSelectedItem();
         JFrame gameWindow = new JFrame();
